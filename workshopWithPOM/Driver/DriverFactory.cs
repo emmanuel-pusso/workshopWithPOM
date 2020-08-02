@@ -17,9 +17,11 @@ namespace workshopWithPOM.Driver
         public static IWebDriver GetBrowserDriver()
         {
             ChromeOptions options = new ChromeOptions();
-            options.AddArgument("start-maximized");
-            options.AddArgument("disable-infobars");
-            options.AddArgument("disable-extensions");
+            options.AddArguments(
+                "start-maximized",
+                "disable-infobars",
+                "disable-extensions"
+                );
             driver = new ChromeDriver(options);
             return driver;
         }
