@@ -10,27 +10,29 @@ using System.Threading.Tasks;
 
 namespace workshopWithPOM
 {
-    public class BasePage : IDisposable
+    public class BasePage
     {
-        private ChromeDriver driver;
+        //private ChromeDriver Driver;
+        public ChromeDriver Driver { get; set; }
+
         private WebDriverWait waiter;
 
         public BasePage()
         {
-            this.driver = new ChromeDriver();
-            this.driver.Manage().Window.Maximize();
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            this.Driver = new ChromeDriver();
+            this.Driver.Manage().Window.Maximize();
+            waiter = new WebDriverWait(Driver, TimeSpan.FromSeconds(10));
         }
 
         public IWebElement FindElementWait(By locator)
         {
-            this.waiter.Until(x => this.driver.FindElement(locator) != null);
-            return driver.FindElement(locator);
+            waiter.Until(x => this.Driver.FindElement(locator) != null);
+            return Driver.FindElement(locator);
         }
 
         public ReadOnlyCollection<IWebElement> FindElementsWait(By locator)
         {
-            return driver.FindElements(locator);
+            return Driver.FindElements(locator);
         }
 
         public String Text(IWebElement element)
@@ -63,25 +65,11 @@ namespace workshopWithPOM
             }
         }
 
-        public void GoToUrl (String url)
+        public void GoToUrl(String url)
         {
-            driver.Navigate().GoToUrl(url);
+            Driver.Navigate().GoToUrl(url);
         }
 
-        public void Dispose()
-        {
-            try
-            {
-                this.driver.Close();
-                this.driver.Quit();
-            }
-
-            finally
-            {
-                this.driver = null;
-            }
-
-        }
     }
 }
 
