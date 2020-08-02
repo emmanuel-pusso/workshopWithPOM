@@ -13,8 +13,12 @@ namespace workshopWithPOM
 
         public CareerTests()
         {
-            page = new CareerPage();
-            page.GoToUrl("https://careers.hexacta.com/");
+            page = new CareerPage("https://careers.hexacta.com/");
+        }
+
+        public void Dispose()
+        {
+            page.Dispose();
         }
 
         [Fact]
@@ -23,18 +27,6 @@ namespace workshopWithPOM
             page.clickPlanCarreraLink();
         }
 
-        public void Dispose()
-        {
-            try
-            {
-                page.Driver.Close();
-                page.Driver.Quit();
-            }
-
-            finally
-            {
-                page.Driver = null;
-            }
-        }
+        
     }
 }
