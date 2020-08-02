@@ -12,7 +12,7 @@ namespace workshopWithPOM
 {
     public class BasePage
     {
-        //private ChromeDriver Driver;
+        //uso una property de C# para el driver
         public ChromeDriver Driver { get; set; }
 
         private WebDriverWait waiter;
@@ -21,53 +21,24 @@ namespace workshopWithPOM
         {
             this.Driver = new ChromeDriver();
             this.Driver.Manage().Window.Maximize();
-            waiter = new WebDriverWait(Driver, TimeSpan.FromSeconds(10));
+            waiter = new WebDriverWait(this.Driver, TimeSpan.FromSeconds(10));
         }
 
         public IWebElement FindElementWait(By locator)
         {
             waiter.Until(x => this.Driver.FindElement(locator) != null);
-            return Driver.FindElement(locator);
+            return this.Driver.FindElement(locator);
         }
 
         public ReadOnlyCollection<IWebElement> FindElementsWait(By locator)
         {
-            return Driver.FindElements(locator);
-        }
-
-        public String Text(IWebElement element)
-        {
-            return element.Text;
-        }
-        public String Text(By locator)
-        {
-            return this.FindElementWait(locator).Text;
-        }
-
-        public void SendKey(String inputText, By locator)
-        {
-            this.FindElementWait(locator).SendKeys(inputText);
-        }
-        public void Click(By locator)
-        {
-            this.FindElementWait(locator).Click();
-        }
-
-        public Boolean Displayed(By locator)
-        {
-            try
-            {
-                return this.FindElementWait(locator).Displayed;
-            }
-            catch (NoSuchElementException)
-            {
-                return false;
-            }
+            return this.Driver.FindElements(locator);
         }
 
         public void GoToUrl(String url)
         {
-            Driver.Navigate().GoToUrl(url);
+            this.Driver.Navigate().GoToUrl(url);
+            this.Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
         }
 
     }

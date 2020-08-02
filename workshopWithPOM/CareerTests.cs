@@ -9,13 +9,12 @@ namespace workshopWithPOM
 {
     public class CareerTests : IDisposable
     {
-        private CareerPage career;
+        private CareerPage page;
 
         public CareerTests()
         {
-            career = new CareerPage();
-            career.GoToUrl("https://careers.hexacta.com/");
-            career.Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
+            page = new CareerPage();
+            page.GoToUrl("https://careers.hexacta.com/");
         }
 
         [Fact]
@@ -28,13 +27,13 @@ namespace workshopWithPOM
         {
             try
             {
-                career.Driver.Close();
-                career.Driver.Quit();
+                page.Driver.Close();
+                page.Driver.Quit();
             }
 
             finally
             {
-                career.Driver = null;
+                page.Driver = null;
             }
         }
     }
