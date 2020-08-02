@@ -20,7 +20,7 @@ namespace workshopWithPOM
         [Fact]
         public void testOpenPageAndClickOnPlanCarreraLink()
         {
-            career.clickPlanCarreraLink();
+            page.clickPlanCarreraLink();
         }
 
         public void Dispose()

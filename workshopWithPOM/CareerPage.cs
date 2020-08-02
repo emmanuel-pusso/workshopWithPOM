@@ -16,7 +16,7 @@ namespace workshopWithPOM
         }
 
         public CareerPage clickPlanCarreraLink() {
-            this.Click(planCarreraLink);
+            this.FindElementWait(planCarreraLink).Click();
             return this;
         }
 
