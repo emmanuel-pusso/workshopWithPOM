@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace workshopWithPOM
 {
-    public class Class1
+    class CareerTests
     {
     }
 }
