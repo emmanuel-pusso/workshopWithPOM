@@ -12,18 +12,43 @@ namespace workshopWithPOM.Driver
     // pero podría tener una instancia de FirefoxDriver, InternetExplorerDriver. Y desde acá seteo el Browser.
     public static class DriverFactory
     {
-        public static IWebDriver driver;
+        private static IWebDriver driver;
 
-        public static IWebDriver GetBrowserDriver()
+        public static IWebDriver Driver
         {
-            ChromeOptions options = new ChromeOptions();
-            options.AddArguments(
-                "start-maximized",
-                "disable-infobars",
-                "disable-extensions"
-                );
-            driver = new ChromeDriver(options);
-            return driver;
+            get
+            {
+                if (driver == null)
+                {
+                    ChromeOptions options = new ChromeOptions();
+                    options.AddArguments(
+                        "start-maximized",
+                        "disable-infobars",
+                        "disable-extensions"
+                        );
+                    driver = new ChromeDriver(options);
+                    driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
+                    driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(30);
+                    driver.Manage().Timeouts().AsynchronousJavaScript = TimeSpan.FromSeconds(5);
+                }
+
+                return driver;
+            }
+
+        }
+
+        public static void Dispose()
+        {
+            try
+            {
+                Driver.Close();
+                Driver.Quit();
+            }
+
+            finally
+            {
+                driver = null;
+            }
         }
 
 

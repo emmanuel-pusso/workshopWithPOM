@@ -11,31 +11,36 @@ using workshopWithPOM.Driver;
 
 namespace workshopWithPOM
 {
-    public class BasePage : IDisposable
+    public class BasePage
     {
         //uso una property de C# para el driver
         public IWebDriver Driver { get; set; }
 
         private WebDriverWait waiter;
+        private By by;
 
-        public BasePage()
+        public void SetUp() 
         {
-            this.Driver = DriverFactory.GetBrowserDriver();
+            this.Driver = DriverFactory.Driver;
             waiter = new WebDriverWait(this.Driver, TimeSpan.FromSeconds(10));
         }
-
-        public BasePage(IWebDriver driver)
-        {
-            this.Driver = driver;
-            waiter = new WebDriverWait(this.Driver, TimeSpan.FromSeconds(10));
+        public BasePage()
+        {    
+            this.SetUp();
         }
 
         public BasePage(String url)
         {
-            this.Driver = DriverFactory.GetBrowserDriver();
+            this.SetUp();
             this.Driver.Url = url;
-            waiter = new WebDriverWait(this.Driver, TimeSpan.FromSeconds(10));
         }
+
+        public BasePage( By by )
+        {
+            this.by = by;
+            this.SetUp();
+        }
+
 
         public IWebElement FindElementWait(By locator)
         {
@@ -43,29 +48,15 @@ namespace workshopWithPOM
             return this.Driver.FindElement(locator);
         }
 
-        public ReadOnlyCollection<IWebElement> FindElementsWait(By locator)
+        public IEnumerable<IWebElement> FindElementsWait(By locator)
         {
+            waiter.Until(x => this.Driver.FindElements(locator).Count > 0);
             return this.Driver.FindElements(locator);
         }
 
         public void GoToUrl(String url)
         {
             this.Driver.Navigate().GoToUrl(url);
-            this.Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
-        }
-
-        public void Dispose()
-        {
-            try
-            {
-                this.Driver.Close();
-                this.Driver.Quit();
-            }
-
-            finally
-            {
-                this.Driver = null;
-            }
         }
 
     }
